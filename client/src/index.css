@@ -1,0 +1,42 @@
+@import url('https://fonts.cdnfonts.com/css/arial-2');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Arial', 'sans-serif';
+  position: relative;
+}
+
+/* global */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 19px;
+}
+
+/* Define custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 2px;
+  /* Set scrollbar width */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+  /* Set track background color */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  /* Set handle color */
+}
