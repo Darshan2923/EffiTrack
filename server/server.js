@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import adminRoutes from './routes/admin.js';
 import employeeRoutes from './routes/employee.js';
+import authRoutes from './routes/auth.js'
 
 const app = express();
 dotenv.config();
@@ -17,7 +18,7 @@ app.use(cors(corsConfig));
 app.use(morgan("tiny"));
 const port = process.env.PORT || 8800;
 
-// app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/employee", employeeRoutes);
 
