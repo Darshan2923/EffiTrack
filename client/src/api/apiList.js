@@ -17,3 +17,14 @@ export const updatePassword = async (data, token) =>
     await API.put("/auth/updatepassword", data, {
         headers: { Authorization: `Bearer ${token}` }
     });
+
+export const getAllEmployees=async(token)=>{
+    await API.get("/admin/getAllEmployees",{
+        headers:{Authorization:`Bearer ${token}`}
+    })
+}
+export const getAllTasks=async(token)=>{
+    await API.get("/employee/getalltasks",{
+        headers:{Authorization:`Bearer ${token}`}
+    })
+}
