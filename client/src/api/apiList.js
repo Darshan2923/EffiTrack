@@ -18,13 +18,30 @@ export const updatePassword = async (data, token) =>
         headers: { Authorization: `Bearer ${token}` }
     });
 
-export const getAllEmployees=async(token)=>{
-    await API.get("/admin/getAllEmployees",{
-        headers:{Authorization:`Bearer ${token}`}
+export const getAllEmployees = async (token) => {
+    await API.get("/admin/getAllEmployees", {
+        headers: { Authorization: `Bearer ${token}` }
     })
 }
-export const getAllTasks=async(token)=>{
-    await API.get("/employee/getalltasks",{
-        headers:{Authorization:`Bearer ${token}`}
+export const getAllTasks = async (token) => {
+    await API.get("/employee/getalltasks", {
+        headers: { Authorization: `Bearer ${token}` }
     })
 }
+
+// Employee routes
+export const createNewTask = async (data, token) =>
+    await API.post("/employee/createtask", data, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+export const updateTask = async (data, token) => {
+    await API.put("/employee/updatetask", data, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+}
+
+export const deleteTask = async (id, token) =>
+    await API.delete(`/employee/deletetask?taskId=${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
