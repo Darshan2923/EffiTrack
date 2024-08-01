@@ -14,7 +14,8 @@ const transporter = nodemailer.createTransport({
         user: process.env.EMAIL_USERNAME,
         pass: process.env.EMAIL_PASSWORD
     },
-    port: 465,
+    secure: true,
+    port: parseInt(465),
     host: "smtp.gmail.com"
 });
 
@@ -27,14 +28,14 @@ export const AdminRegister = async (req, res, next) => {
         }
 
         // Check if the email is in use
-        const existingUser = await User.findOne({ email }).exec();
+        const existingUser = await userModel.findOne({ email }).exec();
         if (existingUser) {
             return next(createError(409, "Email is already in use."));
         }
         const salt = bcrypt.genSaltSync(10);
         const hashedPass = bcrypt.hashSync(password, salt);
         const user = new userModel({
-            username, email, password: hashedPass, role: "admin"
+            username, email, password: hashedPass, role: "admin", img: req.body.img || 'default_image_url' // Provide a default value for the img field
         });
         const createdUser = await user.save();
         const token = jwt.sign({ id: createdUser._id }, process.env.JWT, {
@@ -44,6 +45,7 @@ export const AdminRegister = async (req, res, next) => {
 
     } catch (error) {
         console.error(error);
+        return next(createError(422, error.message));
     }
 }
 
@@ -204,7 +206,7 @@ export const generateOTP = async (req, res, next) => {
         subject: "Account Verification OTP",
         html: `
           <div style="font-family: Poppins, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f9f9; padding: 20px; border: 1px solid #ccc; border-radius: 5px;">
-      <h1 style="font-size: 22px; font-weight: 500; color: #854CE6; text-align: center; margin-bottom: 30px;">Verify Your Trackify Account</h1>
+      <h1 style="font-size: 22px; font-weight: 500; color: #854CE6; text-align: center; margin-bottom: 30px;">Verify Your Account</h1>
       <div style="background-color: #FFF; border: 1px solid #e5e5e5; border-radius: 5px; box-shadow: 0px 3px 6px rgba(0,0,0,0.05);">
           <div style="background-color: #854CE6; border-top-left-radius: 5px; border-top-right-radius: 5px; padding: 20px 0;">
               <h2 style="font-size: 28px; font-weight: 500; color: #FFF; text-align: center; margin-bottom: 10px;">Verification Code</h2>
@@ -212,24 +214,24 @@ export const generateOTP = async (req, res, next) => {
           </div>
           <div style="padding: 30px;">
               <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Dear ${name},</p>
-              <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Thank you for creating a Trackify account. To activate your account, please enter the following verification code:</p>
+              <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Thank you for creating a account. To activate your account, please enter the following verification code:</p>
               <p style="font-size: 20px; font-weight: 500; color: #666; text-align: center; margin-bottom: 30px; color: #854CE6;">${req.app.locals.OTP}</p>
-              <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Please enter this code in the Trackify app to activate your account.</p>
-              <p style="font-size: 12px; color: #666; margin-bottom: 20px;">If you did not create a Trackify account, please disregard this email.</p>
+              <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Please enter this code in the  app to activate your account.</p>
+              <p style="font-size: 12px; color: #666; margin-bottom: 20px;">If you did not create a account, please disregard this email.</p>
           </div>
       </div>
       <br>
-      <p style="font-size: 16px; color: #666; margin-bottom: 20px; text-align: center;">Best regards,<br>The Trackify Team</p>
+      <p style="font-size: 16px; color: #666; margin-bottom: 20px; text-align: center;">Best regards,<br>The Team</p>
   </div>
           `
     };
 
     const resetPasswordOtp = {
         to: email,
-        subject: "Trackify Reset Password Verification",
+        subject: "Reset Password Verification",
         html: `
               <div style="font-family: Poppins, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f9f9; padding: 20px; border: 1px solid #ccc; border-radius: 5px;">
-                  <h1 style="font-size: 22px; font-weight: 500; color: #854CE6; text-align: center; margin-bottom: 30px;">Reset Your Trackify Account Password</h1>
+                  <h1 style="font-size: 22px; font-weight: 500; color: #854CE6; text-align: center; margin-bottom: 30px;">Reset Your  Account Password</h1>
                   <div style="background-color: #FFF; border: 1px solid #e5e5e5; border-radius: 5px; box-shadow: 0px 3px 6px rgba(0,0,0,0.05);">
                       <div style="background-color: #854CE6; border-top-left-radius: 5px; border-top-right-radius: 5px; padding: 20px 0;">
                           <h2 style="font-size: 28px; font-weight: 500; color: #FFF; text-align: center; margin-bottom: 10px;">Verification Code</h2>
@@ -237,14 +239,14 @@ export const generateOTP = async (req, res, next) => {
                       </div>
                       <div style="padding: 30px;">
                           <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Dear ${name},</p>
-                          <p style="font-size: 14px; color: #666; margin-bottom: 20px;">To reset your Trackify account password, please enter the following verification code:</p>
+                          <p style="font-size: 14px; color: #666; margin-bottom: 20px;">To reset your account password, please enter the following verification code:</p>
                           <p style="font-size: 20px; font-weight: 500; color: #666; text-align: center; margin-bottom: 30px; color: #854CE6;">${req.app.locals.OTP}</p>
-                          <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Please enter this code in the Trackify app to reset your password.</p>
+                          <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Please enter this code in the app to reset your password.</p>
                           <p style="font-size: 12px; color: #666; margin-bottom: 20px;">If you did not request a password reset, please disregard this email.</p>
                       </div>
                   </div>
                   <br>
-                  <p style="font-size: 16px; color: #666; margin-bottom: 20px; text-align: center;">Best regards,<br>The Trackify Team</p>
+                  <p style="font-size: 16px; color: #666; margin-bottom: 20px; text-align: center;">Best regards,<br>The Team</p>
               </div>
           `
     }
@@ -275,6 +277,7 @@ export const verifyOTP = async (req, res, next) => {
     }
     return next(createError(403, "Wrong OTP"));
 };
+
 
 export const createResetSession = async (req, res) => {
     if (req.app.locals.resetSession) {
@@ -326,20 +329,27 @@ export const resetPassword = async (req, res, next) => {
 
 export const findUserByEmail = async (req, res, next) => {
     const { email } = req.query;
+    console.log(`Searching for user with email: ${email}`);
+
     try {
         const user = await userModel.findOne({ email });
-        if (user?.role === "admin") {
-            return res.status(200).send({
-                message: "User found"
-            });
+        console.log(`User found: ${user}`);
+
+        if (!user) {
+            console.log('User does not exist');
+            return res.status(404).json({ message: "User does not exist" });
         }
-        if (user?.role === "employee") {
-            return next(createError(404, "You are an employee login as an employee"));
+
+        // Handle different roles if needed
+        if (user.role === "admin") {
+            return res.status(200).json({ message: "User found" });
+        } else if (user.role === "employee") {
+            return next(createError(403, "You are an employee, login as an employee"));
         }
-        return res.status(402).send({
-            message: "User doesnot exist"
-        });
     } catch (err) {
+        console.error('Error in findUserByEmail:', err);
         return next(err);
     }
 };
+
+
