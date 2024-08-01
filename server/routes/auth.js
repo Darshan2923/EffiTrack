@@ -1,6 +1,7 @@
 import express from 'express';
 import { localVariables } from '../middleware/verifyEmail.js'
-import { AdminLogin, AdminRegister, EmployeeLogin, UpdatePass, UpdateProfile, createResetSession, findUserByEmail, generateOTP, resetPassword, verifyOTP } from '../controllers/auth';
+import { AdminLogin, AdminRegister, EmployeeLogin, UpdatePass, UpdateProfile, createResetSession, findUserByEmail, generateOTP, resetPassword, verifyOTP } from '../controllers/auth.js';
+import { verifyToken } from '../middleware/verifyToken.js';
 
 const router = express.Router();
 
