@@ -4,7 +4,7 @@ const API = axios.create({
     baseURL: "http://localhost:5000/api/"
 })
 
-const generateOtp = async (email, name, email) => {
+const generateOtp = async (email, name) => {
     await API.get(
         `/auth/admin/generateotp?email=${email}&name=${name}&reason=${reason}`
     )
