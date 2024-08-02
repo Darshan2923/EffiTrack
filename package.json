@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@headlessui/react": "^2.1.2",
+    "moment": "^2.30.1"
+  }
+}
