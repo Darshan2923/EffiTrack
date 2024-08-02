@@ -5,7 +5,7 @@ import { findUserByEmail, resetPassword } from '../api/index'
 import OTP from './OTP'
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaTimes } from 'react-icons/fa';
 
-const ForgetPassword = () => {
+const ForgetPassword = ({ setShowForgotPassword }) => {
     // Hooks
     const [errorMessage, setErrorMessage] = useState({
         email: "",

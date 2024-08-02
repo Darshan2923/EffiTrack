@@ -5,6 +5,7 @@ import { AdminRegister, findUserByEmail } from '../api';
 import OTP from './OTP';
 import React, { useState, useEffect } from 'react'
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = ({ setOpenSignUp }) => {// hooks
     const dispatch = useDispatch();
@@ -26,6 +27,7 @@ const Signup = ({ setOpenSignUp }) => {// hooks
     // Verify OTP
     const [otpVerified, setOtpVerified] = useState(false);
     const [showOtp, setShowOtp] = useState(false);
+    const navigate = useNavigate();
 
     // handle input change
     const handleInputChange = (e) => {
@@ -164,6 +166,7 @@ const Signup = ({ setOpenSignUp }) => {// hooks
                     ...errorMessage,
                     apierror: ""
                 });
+                navigate('/');
             } catch (err) {
                 console.error(err);
             }
