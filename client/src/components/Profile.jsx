@@ -82,14 +82,7 @@ const Profile = ({ open, handleClose, anchorEl }) => {
                         </div>
                     </div>
                     <hr className="my-4 border-gray-300" />
-                    <div className="flex flex-col items-center">
-                        <button
-                            onClick={() => setOpen(!open)}
-                            className="text-gray-600 hover:text-gray-800"
-                        >
-                            Close
-                        </button>
-                    </div>
+
                 </div>
             )}
         </div>
