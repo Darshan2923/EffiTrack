@@ -58,7 +58,7 @@ const Navbar = ({ setMenuOpen, menuOpen }) => {
                 </button>
                 <div className="text-lg font-semibold hidden md:flex items-center text-transparent bg-gradient-to-r from-purple-800 to-pink-600 bg-clip-text">
                     <img src={Logo} alt="Logo" className="hidden md:block h-5 mr-2" />
-                    Trackify
+                    Effitrack
                 </div>
             </div>
             <div className="flex items-center gap-2 cursor-pointer" onClick={handleClick}>

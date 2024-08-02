@@ -1,77 +1,42 @@
-.active {
-    color: #31B465;
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }
 
-.sidebar-title {
-    font-size: 22px;
-    font-weight: normal;
-    margin-bottom: 20px;
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-.sidebar-items {
-    margin-top: 20px;
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.sidebar-label-container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
 }
 
-.sidebar-label-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
+.card {
+  padding: 2em;
 }
 
-.checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    background-color: #eee;
-    border-radius: 50%;
-}
-
-.all {
-    background: linear-gradient(blue, crimson);
-}
-
-.sidebar-label-container:hover input~.checkmark {
-    background-color: #ccc;
-}
-
-.sidebar-label-container input:checked~.checkmark {
-    background-color: #31B465;
-}
-
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-.sidebar-label-container input:checked~.checkmark:after {
-    display: block;
-}
-
-.sidebar-label-container .checkmark:after {
-    top: 6.4px;
-    left: 6.4px;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: white;
-}
-
-.line {
-    margin-top: 3rem;
-    border-color: #f7f7f7;
+.read-the-docs {
+  color: #888;
 }

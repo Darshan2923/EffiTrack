@@ -1,42 +1,53 @@
-@import url('https://fonts.cdnfonts.com/css/arial-2');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  scroll-behavior: smooth;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    outline: none;
 }
 
-body {
-  font-family: 'Arial', 'sans-serif';
-  position: relative;
+html {
+    scroll-behavior: smooth;
 }
 
-/* global */
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 19px;
+    max-width: 1200px;
 }
 
-/* Define custom scrollbar styles */
+/* width */
 ::-webkit-scrollbar {
-  width: 2px;
-  /* Set scrollbar width */
+    width: 4px;
+    height: 80px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent;
-  /* Set track background color */
+    background: #222a35;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  /* Set handle color */
+    background: #575c66;
+    border-radius: 6px;
 }
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #626970;
+}
+
+input {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: inherit;
+    width: 100%;
+}
+
+body {}

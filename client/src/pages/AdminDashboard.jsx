@@ -1,75 +1,78 @@
-import React, { useState } from 'react'
-import { ToastContainer, toast } from 'react-toastify';
-import { getAllEmployees } from '../api/apiList';
-import EmployeeTableCard from '../components/Cards/EmployeeTableCard';
+import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { openSnackbar } from '../redux/reducers/snackbarSlice'
+import EmployeeTableCard from './Cards/EmployeeTableCard'
+import { getAllEmployees } from '../api'
+
 
 const AdminDashboard = () => {
-  // Hooks
-  const token = localStorage.getItem('effitrack-token');
-  const [employees, setEmployees] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const { currentUser, reload } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    const token = localStorage.getItem("trackify-token");
+    const [employees, setEmployees] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  // fetch employees
-  useEffect(() => {
-    const fetchEmployees = async () => {
-      try {
-        await getAllEmployees(token).then((res) => {
-          setEmployees(res.data.employees);
-          setLoading(false);
-        });
-      } catch (error) {
-        setError(error.message);
-        setLoading(false);
-        if (error.response) {
-          setLoading(false);
-          setError(err.response.data.message);
-        } else {
-          setLoading(false);
-          toast.error("An error occured");
-        }
-      }
-    };
-    fetchEmployees();
-  }, [token]);
+    // Fetch employees
+    useEffect(() => {
+        const fetchEmployees = async () => {
+            try {
+                await getAllEmployees(token).then((res) => {
+                    setEmployees(res.data.employees);
+                    print(employees)
+                    setLoading(false);
+                })
+            } catch (err) {
+                setError(err.message);
+                setLoading(false);
+                if (err.response) {
+                    setLoading(false);
+                    setError(err.response.data.message);
+                } else {
+                    setLoading(false);
+                    dispatch(
+                        openSnackbar({
+                            message: err.message,
+                            severity: "error"
+                        })
+                    );
+                }
+            }
+        };
+        fetchEmployees();
+    }, [token, currentUser, dispatch, reload])
 
-  return (
-    <>
-      <ToastContainer />
-      {loading || error ? (
-        <>
-          {loading && "Loading..."}
-          {error && toast.error(error)}</>
-      ) : (
-        // Employee list in Table Format
+    return (
         <div>
-          <div className="EmployeeTable">
-            <div className="ItemTitle" style={{ fontSize: "20px", smallFontSize: "16px", padding: "16px 22px", margin: "0px" }}>
-              Employee List
-            </div>
-            <div className="TableTop flex">
-              <div className="Heading" style={{ width: "30%" }} />
-              <div className="Heading" style={{ width: "80%", justifyContent: "start" }}>
-                Username
-              </div>
-              <div className="Heading">Contact No</div>
-              <div className="Heading" style={{ width: "50%" }}>Department</div>
-              <div className="Heading">Joining Date</div>
-              <div className="Heading">Status</div>
-            </div>
-            <div className="EmployeeList">
-              {employees.map((employee) => {
-                return (
-                  <EmployeeTableCard key={employee._id} employee={employee} />
-                );
-              })}
-            </div>
-          </div>
+            {loading || error ? (
+                <p>Loading...</p>
+            ) : (
+                <div>
+                    <div className="p-5 pb-[200px] h-full overflow-y-scroll flex flex-col gap-5 bg-background">
+                        <div className="text-text_primary font-medium mb-4 text-[20px] sm:text-[16px]">
+                            Employee List
+                        </div>
+                        <div className="w-full flex flex-col gap-px rounded-md overflow-hidden shadow-md transition-all duration-500 ease-in-out">
+                            <div className="flex items-center p-5 bg-table_header text-white gap-3 sm:p-4 sm:gap-2 transition-all duration-500 ease-in-out">
+                                <div className="w-1/3 text-center text-sm sm:text-base"> </div>
+                                <div className="w-4/5 flex justify-start text-sm sm:text-base">Username</div>
+                                <div className="text-sm sm:text-base">Contact No</div>
+                                <div className="w-1/2 text-sm sm:text-base">Department</div>
+                                <div className="text-sm sm:text-base">Joining Date</div>
+                                <div className="text-sm sm:text-base">Status</div>
+                            </div>
+                            <div className="flex flex-col gap-px bg-text_secondary_20">
+                                {employees.map((employee) => (
+                                    <EmployeeTableCard key={employee._id} employee={employee} />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
+            )}
         </div>
-      )}
-    </>
-  )
+    )
 }
 
 export default AdminDashboard
